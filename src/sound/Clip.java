@@ -7,20 +7,18 @@ import java.util.ArrayList;
 
 public class Clip {
     private SubBeatFrame[] subBeatFrames;
-    private int subBeatsCount;
-    private int soundFrameCount;
 
     private Clip(SubBeatFrame[] subBeatFrames, int subBeatFrameSize, int subBeatsCount){
         this.subBeatFrames = subBeatFrames;
     }
 
-    public int getSize(){
+    public int getSoundFramesCount(){
         return subBeatFrames.length;
     }
 
-    public int getSoundFrameCount(){
-        return soundFrameCount;
-    }
+//    public int getSoundFrameCount(){
+//        return soundFrameCount;
+//    }
 
     public Clip(AudioData audioData, TimeSignature signature){
         SoundFileFrame[] fileFrames = new SoundFileFrame[audioData.getData().length / audioData.getFormat().getFrameSize()];
@@ -32,8 +30,6 @@ public class Clip {
         }
 
         System.out.printf("Data is %d bytes long. Clip size is %d frames\n", audioData.getData().length, fileFrames.length);
-
-        soundFrameCount = fileFrames.length;
 
         subBeatFrames = new SubBeatFrame[signature.getSubBeatsCount(fileFrames.length)];
 
@@ -56,10 +52,10 @@ public class Clip {
 
 
     public SubBeatFrame getFrame(int frameNumber){
-        if(frameNumber < subBeatFrames.length){
+        if(frameNumber < subBeatFrames.length && frameNumber >= 0){
             return subBeatFrames[frameNumber];
         } else {
-            return null;
+            return SubBeatFrame.NONE;
         }
     }
 
@@ -81,11 +77,11 @@ public class Clip {
 
     public static Clip clipsCombiner(ArrayList<Clip> clips, int subBeatsCount, int subBeatFrameSize){
 
-        SubBeatFrame beatFrames[] = new SubBeatFrame[subBeatsCount];
+        SubBeatFrame[] beatFrames = new SubBeatFrame[subBeatsCount];
 
         for(int i = 0; i < beatFrames.length; i++){
 
-            SoundFileFrame soundFrames[] = new DefaultFrame[subBeatFrameSize];
+            SoundFileFrame[] soundFrames = new DefaultFrame[subBeatFrameSize];
 
             for(int j = 0; j < soundFrames.length; j++){
                 soundFrames[j] = new DefaultFrame(0,0);
