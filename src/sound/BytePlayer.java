@@ -2,10 +2,9 @@ package sound;
 
 import sound.buffer.LinkedList;
 import sound.buffer.LinkedListNode;
-import sound.song.Song;
+import composition.Song;
 
 import javax.sound.sampled.*;
-import java.util.ArrayList;
 
 /**
  * This class will put bytes into an audio stream for them to be played

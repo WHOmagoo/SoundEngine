@@ -30,7 +30,7 @@ public class SongLoader {
                     continue;
                 }
 
-                Clip c = new Clip(curData, timeSignature);
+                Clip c = new Clip(curData, timeSignature, fileName);
                 result.add(c);
             } catch (FileNotFoundException e) {
                 System.out.println("Missing file " + fileName);

@@ -3,10 +3,12 @@ package sound;
 import sound.frame.*;
 import sound.loader.AudioData;
 
+import javax.naming.Name;
 import java.util.ArrayList;
 
 public class Clip {
     private SubBeatFrame[] subBeatFrames;
+    private String name = "NONE";
 
     private Clip(SubBeatFrame[] subBeatFrames, int subBeatFrameSize, int subBeatsCount){
         this.subBeatFrames = subBeatFrames;
@@ -19,6 +21,15 @@ public class Clip {
 //    public int getSoundFrameCount(){
 //        return soundFrameCount;
 //    }
+
+    public Clip(AudioData audioData, TimeSignature signature, String name){
+        this(audioData, signature);
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
+    }
 
     public Clip(AudioData audioData, TimeSignature signature){
         SoundFileFrame[] fileFrames = new SoundFileFrame[audioData.getData().length / audioData.getFormat().getFrameSize()];
