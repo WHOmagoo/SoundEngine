@@ -8,6 +8,7 @@ import sound.TimeSignature;
  * A single SubBeatFrame represents a single sub beat
  */
 public class SubBeatFrame {
+    public static final SubBeatFrame NONE = new SubBeatFrame(new SoundFileFrame[]{});
     SoundFileFrame frames[];
 
     public SubBeatFrame(SoundFileFrame[] frames){
@@ -34,12 +35,24 @@ public class SubBeatFrame {
     }
 
     public void add(SubBeatFrame other){
+        if(other != NONE && this != NONE) {
+            for (int i = 0; i < frames.length; i++) {
+                if (i >= other.frames.length) {
+                    break;
+                }
+
+                frames[i] = frames[i].add(other.frames[i]);
+            }
+        }
+    }
+
+    public void remove(SubBeatFrame other){
         for(int i = 0; i < frames.length; i++){
             if(i >= other.frames.length){
                 break;
             }
 
-            frames[i].add(other.frames[i]);
+            frames[i] = frames[i].remove(other.frames[i]);
         }
     }
 }

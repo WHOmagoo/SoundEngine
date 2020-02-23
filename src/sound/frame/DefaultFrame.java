@@ -36,11 +36,40 @@ public class DefaultFrame extends SoundFileFrame{
 
     @Override
     public SoundFileFrame add(SoundFileFrame otherSoundFrame) {
-        return null;
+        if(otherSoundFrame instanceof DefaultFrame){
+            return add((DefaultFrame) otherSoundFrame);
+        } else if(otherSoundFrame == null) {
+            //TODO should we deep copy this?
+            return this;
+        } else {
+            return null;
+        }
         //throw new Exception("Combination not added for other sound frame formats");
     }
 
-    public SoundFileFrame add(DefaultFrame otherFrame){
+    @Override
+    public SoundFileFrame remove(SoundFileFrame otherSoundFrame) {
+        if(otherSoundFrame instanceof DefaultFrame){
+            return remove((DefaultFrame) otherSoundFrame);
+        } else if(otherSoundFrame == null) {
+            //TODO should we deep copy this?
+            return this;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void clear() {
+        channel1 = 0;
+        channel2 = 0;
+    }
+
+    private SoundFileFrame remove(DefaultFrame otherSoundFrame){
+        return new DefaultFrame(channel1 - otherSoundFrame.channel1, channel2 - otherSoundFrame.channel2);
+    }
+
+    private SoundFileFrame add(DefaultFrame otherFrame){
         return new DefaultFrame(channel1 + otherFrame.channel1, channel2 + otherFrame.channel2);
     }
 
