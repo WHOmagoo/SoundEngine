@@ -1,6 +1,7 @@
 package sound;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -14,7 +15,7 @@ public class TimeSignature {
     private int subBeatsPerBeat;
     private int frameRate;
 
-    private int framesPerSubdivision;
+    private BigDecimal framesPerSubdivision;
     private int frameRemainder;
     private int beatsPerMinute;
 
@@ -35,13 +36,30 @@ public class TimeSignature {
         subBeatsPerBeat = newSubBeatsPerBeat;
 
         subBeatsPerMinute = new BigDecimal(beatsPerMinute * subBeatsPerBeat);
-        BigDecimal results[] = framesPerMinute.divideAndRemainder(subBeatsPerMinute);
+        framesPerSubdivision = framesPerMinute.divide(subBeatsPerMinute, RoundingMode.DOWN);
 
-        framesPerSubdivision = results[0].intValue();
-        frameRemainder = results[1].intValue();
+//        framesPerSubdivision = results[0;
+//        frameRemainder = results[1].intValue();
     }
 
-    public int getFramesCount(int subBeatsCount){
-        return framesPerSubdivision * subBeatsCount + new BigDecimal(frameRemainder * subBeatsCount).divide (subBeatsPerMinute, RoundingMode.HALF_EVEN).intValue();
+    //Counts sound file frames for the given number of subBeats
+    public int getFramesPreceeding(int subBeatFrameNumber){
+//        int result = framesPerSubdivision * subBeatFrameNumber;
+//        if((subBeatFrameNumber - 1) % subBeatsPerMinute.intValue() < frameRemainder){
+//            result++;
+//        }
+//        BigDecimal extra = new BigDecimal(frameRemainder * subBeatFrameNumber).divide (subBeatsPerMinute, RoundingMode.HALF_EVEN);
+//        return result;
+        return framesPerSubdivision.multiply(new BigDecimal(subBeatFrameNumber)).round(MathContext.DECIMAL32).intValue();
+    }
+
+    public int getFramesCountForFrameNumber(int subBeatFrameNumber){
+        return getFramesPreceeding(subBeatFrameNumber + 1) - getFramesPreceeding(subBeatFrameNumber);
+    }
+
+    //Trims dangling data that doesn't fit in a frame
+    public int getSubBeatsCount(int framesCount) {
+        BigDecimal result = subBeatsPerMinute.multiply(new BigDecimal(framesCount)).divide(framesPerMinute, RoundingMode.DOWN);
+        return result.intValue();
     }
 }
