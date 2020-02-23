@@ -38,4 +38,13 @@ public class FormatConverter {
             return new byte[]{(byte) number, (byte) (number >> 8), (byte) (number >> 16), (byte) (number >> 24) };
         }
     }
+
+
+    public void flipEndianessOf16bit(byte[] bytes){
+        for(int i = 0; i < bytes.length / 2; i++){
+            byte tmp = bytes[i];
+            bytes[i] = bytes[i+1];
+            bytes[i + 1] = tmp;
+        }
+    }
 }
