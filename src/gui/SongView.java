@@ -46,7 +46,7 @@ public class SongView {
 
         int i = 0;
         for(Clip c : clips.getClips()){
-            PartialLoopingClipPart clipPart = new PartialLoopingClipPart(t.getFramesPreceeding(t.getBeatsPerMeasure() * t.getSubBeatsPerBeat() * i), c.getName(), c, 0, 12 * 4 * 16, 0);
+            PartialLoopingClipPart clipPart = new PartialLoopingClipPart(t.getFramesPreceeding(t.getBeatsPerMeasure() * t.getSubBeatsPerBeat()), c.getName(), c, 0, 12 * 4 * 16, 0);
             ClipView view = new ClipView(s, scheduler, clipPart);
             frame.add(view);
         }
