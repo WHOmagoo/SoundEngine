@@ -13,6 +13,23 @@ public class TimeSignature {
     private int beatsPerMeasure;
     private int lengthOfBeat;
     private int subBeatsPerBeat;
+
+    public int getBeatsPerMeasure() {
+        return beatsPerMeasure;
+    }
+
+    public int getLengthOfBeat() {
+        return lengthOfBeat;
+    }
+
+    public int getSubBeatsPerBeat() {
+        return subBeatsPerBeat;
+    }
+
+    public int getFrameRate() {
+        return frameRate;
+    }
+
     private int frameRate;
 
     private BigDecimal framesPerSubdivision;
@@ -38,19 +55,24 @@ public class TimeSignature {
         subBeatsPerMinute = new BigDecimal(beatsPerMinute * subBeatsPerBeat);
         framesPerSubdivision = framesPerMinute.divide(subBeatsPerMinute, RoundingMode.DOWN);
 
-//        framesPerSubdivision = results[0;
-//        frameRemainder = results[1].intValue();
+        BigDecimal[] results = framesPerMinute.divideAndRemainder(subBeatsPerMinute);
+
+        framesPerSubdivision = results[0];
+        frameRemainder = results[1].intValue();
     }
 
     //Counts sound file frames for the given number of subBeats
     public int getFramesPreceeding(int subBeatFrameNumber){
-//        int result = framesPerSubdivision * subBeatFrameNumber;
+        int result = framesPerSubdivision.multiply(new BigDecimal(subBeatFrameNumber)).intValue();
 //        if((subBeatFrameNumber - 1) % subBeatsPerMinute.intValue() < frameRemainder){
 //            result++;
 //        }
-//        BigDecimal extra = new BigDecimal(frameRemainder * subBeatFrameNumber).divide (subBeatsPerMinute, RoundingMode.HALF_EVEN);
+
+        BigDecimal extra = new BigDecimal(frameRemainder * subBeatFrameNumber).divide (subBeatsPerMinute, RoundingMode.HALF_EVEN);
+
+        return result + extra.intValue();
 //        return result;
-        return framesPerSubdivision.multiply(new BigDecimal(subBeatFrameNumber)).round(MathContext.DECIMAL32).intValue();
+//        return framesPerSubdivision.multiply(new BigDecimal(subBeatFrameNumber)).round(MathContext.DECIMAL32).intValue();
     }
 
     public int getFramesCountForFrameNumber(int subBeatFrameNumber){
@@ -61,5 +83,9 @@ public class TimeSignature {
     public int getSubBeatsCount(int framesCount) {
         BigDecimal result = subBeatsPerMinute.multiply(new BigDecimal(framesCount)).divide(framesPerMinute, RoundingMode.DOWN);
         return result.intValue();
+    }
+
+    public int getSubBeatsPerMeasure() {
+        return beatsPerMeasure * subBeatsPerBeat;
     }
 }
