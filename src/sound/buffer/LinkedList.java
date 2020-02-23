@@ -7,6 +7,7 @@ public class LinkedList {
     volatile LinkedListNode start;
     volatile LinkedListNode end;
     volatile LinkedListNode current;
+    volatile int pos;
 
     public LinkedList(){
     }
@@ -22,11 +23,21 @@ public class LinkedList {
     }
 
     public LinkedListNode getStart(){
+        current = start;
         return start;
     }
 
     public synchronized LinkedListNode next(){
-        current = current.next;
-        return current;
+        pos++;
+        if(current != null) {
+            current = current.next;
+            return current;
+        } else {
+            return null;
+        }
+    }
+
+    public int getPos() {
+        return pos;
     }
 }

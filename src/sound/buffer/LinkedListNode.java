@@ -2,7 +2,7 @@ package sound.buffer;
 
 public class LinkedListNode {
     private byte[] data;
-    LinkedListNode next = null;
+    volatile LinkedListNode next = null;
 
     public LinkedListNode(byte[] data){
         if(data == null){
