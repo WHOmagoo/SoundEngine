@@ -2,16 +2,13 @@ package sound.loader;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.LifecycleMethodExecutionExceptionHandler;
-import org.junit.jupiter.api.function.Executable;
 import sound.BytePlayer;
 import sound.Clip;
 import sound.TimeSignature;
 import sound.loader.exceptions.BadHeaderException;
 
 import javax.sound.sampled.*;
-import javax.xml.transform.Source;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,7 +46,7 @@ class WAVHeaderLoaderTest implements LifecycleMethodExecutionExceptionHandler {
 //
 //            BytePlayer player = new BytePlayer(AudioSystem.getSourceDataLine(audioData.getFormat()));
 //
-//            for(int i = 0; i < c.getSize(); i++){
+//            for(int i = 0; i < c.getSoundFramesCount(); i++){
 //                player.addToPlay(c.getFrame(i).getBytes());
 //            }
 //
@@ -74,9 +71,9 @@ class WAVHeaderLoaderTest implements LifecycleMethodExecutionExceptionHandler {
             Clip c = new Clip(audioData, new TimeSignature(4,4,120,44100, 12));
 
             SourceDataLine d = (SourceDataLine) AudioSystem.getLine(new DataLine.Info(SourceDataLine.class, audioData.getFormat()));
-            BytePlayer player = new BytePlayer(d);
+            BytePlayer player = new BytePlayer(d, null);
 
-            for(int i = 0; i < c.getSize(); i++){
+            for(int i = 0; i < c.getSoundFramesCount(); i++){
                 player.addToPlay(c.getFrame(i).getBytes());
             }
 

@@ -35,9 +35,9 @@ class TimeSignatureTest {
         TimeSignature ts;
         ts = new TimeSignature(4, 4, 144, 44100, 12);
 
-        assertEquals(1531 * 4, ts.getFramesPreceeding(4));
-        assertEquals(1531 * 8, ts.getFramesPreceeding(8));
-        assertEquals(1531*12, ts.getFramesPreceeding(12));
+        assertEquals(1531 * 4, ts.getFramesPreceeding(4), 1);
+        assertEquals(1531 * 8, ts.getFramesPreceeding(8), 1);
+        assertEquals(1531*12, ts.getFramesPreceeding(12), 1);
 
 
     }
@@ -49,7 +49,7 @@ class TimeSignatureTest {
 
         //Rounded
         assertEquals(1531 * 2, ts.getFramesPreceeding(2), 1);
-        assertEquals(1531 * 3, ts.getFramesPreceeding(3));
+        assertEquals(1531 * 3, ts.getFramesPreceeding(3), 1);
     }
 
     @Test
